@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <style>
+      .brick:hover{
+        border: 1px solid black;
+      }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <v-app>
+        <v-navigation-drawer app>
+            <v-container>
+                <v-row>
+                    <v-col>
+                        <v-btn small @click="addToCard">ADD</v-btn>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-navigation-drawer>
+        
+      <v-main>
+        
+        <v-container>
+            <brick v-for="(brick,bid) in bricks" :key="bid" :brick="brick"></brick>
+            
+        </v-container>
+      </v-main>
+    </v-app>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script>
+    Vue.component('brick', {
+        template: '<component class="brick" @click.stop.prevent="brickClicked" :is="brick.type" v-bind="brick.bind" v-on="brick.on">{{brick.text}}<brick v-for="(b,bid) in brick.elements" :brick="b" :key="bid"></brick></component>',
+        props: ['brick'],
+        methods: {
+            brickClicked(e) {
+                console.log(e)
+            }
+        }
+    });
+
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      data: {
+        bricks: [],
+      },
+      methods: {
+        addToCard() {
+            this.bricks.push({type:"v-card",elements:[
+                {type:"v-card-title", text:"hhohohoh" },
+                {type:"v-card-subtitle", text:"hhohohoh" },
+                {type:"v-card-actions", elements: [
+                    {type:"v-btn", bind:{color:"primary"}, text:"OK", on:{ click:()=>{alert("clicked")} } }
+                ]}
+            ]});
+        }
+      }
+    })
+  </script>
+</body>
+</html>
